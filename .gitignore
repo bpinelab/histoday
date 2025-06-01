@@ -1,0 +1,36 @@
+# Python virtual environments
+venv/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Output artifacts
+output/
+public/
+site/
+
+# Ansible
+*.retry
+
+# AWS credential files (just in case)
+*.pem
+
+# VSCode
+.vscode/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# System files
+*.swp
+*.swo

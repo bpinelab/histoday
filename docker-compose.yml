@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  histoday:
+    build: .
+    container_name: histoday
+    env_file: .env
+    volumes:
+      - ./public_html:/opt/histoday/public_html
+    command: python scripts/fetch_event.py

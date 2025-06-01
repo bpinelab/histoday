@@ -1,0 +1,57 @@
+- name: Setup Histoday application on EC2
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          - python3
+          - python3-pip
+          - git
+        state: present
+
+    - name: Install pip packages
+      pip:
+        name:
+          - requests
+          - jinja2
+          - boto3
+          - python-dotenv
+
+    - name: Create application directory
+      file:
+        path: /opt/histoday
+        state: directory
+        mode: '0755'
+
+    - name: Create public_html directory
+      file:
+        path: /opt/histoday/public_html
+        state: directory
+        mode: '0755'
+
+    - name: Copy fetch_event.py
+      copy:
+        src: ../scripts/fetch_event.py
+        dest: /opt/histoday/fetch_event.py
+        mode: '0755'
+
+    - name: Copy HTML template
+      copy:
+        src: ../templates/base.html
+        dest: /opt/histoday/templates/base.html
+        mode: '0644'
+
+    - name: Copy .env file
+      copy:
+        src: ../.env
+        dest: /opt/histoday/.env
+        mode: '0600'
+
+    - name: Create cron job to run fetch_event.py daily
+      cron:
+        name: "Fetch daily historical event"
+        minute: "0"
+        hour: "6"
+        job: "cd /opt/histoday && /usr/bin/python3 fetch_event.py >> /var/log/histoday.log 2>&1"
+        user: ec2-user

@@ -1,0 +1,2 @@
+# Cron schedule for running Histoday script daily at 6:00 AM UTC
+0 6 * * * cd /home/ubuntu/histoday && /home/ubuntu/histoday/.venv/bin/python scripts/fetch_event.py >> cron.log 2>&1
